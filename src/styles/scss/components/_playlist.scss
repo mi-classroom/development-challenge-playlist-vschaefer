@@ -2,5 +2,23 @@
 ############################################################################ */
 
 .playlist {
+  &__button {
+    display: inline-block;
+    margin-right: $xxs;
+  }
+
+  &__text {
+    display: inline-block;
+    font-size: $s;
+  }
+
+  &__artist {
+    margin-right: $xxs;
+  }
+
+  &__artist::after {
+    content: '-';
+    margin-left: $xxs;
+  }
 
 }
