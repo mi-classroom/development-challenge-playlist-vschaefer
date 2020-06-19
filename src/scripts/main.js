@@ -5,6 +5,27 @@ import Swipe from './modules/swipe.js';
 const slideshowsContentUrl = './json/content.json';
 const slideShowImagePath = './images';
 const templateUrl = './templates/slideshow.html';
+const contentPlayerURL = './json/playlist.json';
+
+/**
+* fetchData
+*
+* Ruft Daten asynchron von der angegebenen URL ab
+*
+*/
+async function fetchData(apiURL, parseJSON = true) {
+  const response = await fetch(apiURL);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  let data = null;
+  if (parseJSON) {
+    data = await response.json();
+  } else {
+    data = await response.text();
+  }
+  return data;
+}
 
 /**
 * toogleMenu
@@ -113,6 +134,7 @@ class Slideshow {
       $this.slides = $this.slideShowElement.querySelectorAll('[data-js-slide]');
     }
 
+
     buildSlides(this);
     injectSlides(this);
     insertSlideshow(this);
@@ -191,16 +213,33 @@ async function fetchSlideshowData(contentUrl, templateUrl) {
   return slideshowData;
 }
 
-const slideshows = [];
-fetchSlideshowData(slideshowsContentUrl, templateUrl)
-  .then((slideshowsData) => {
-    const { templateText } = slideshowsData;
-    slideshowsData.content.forEach((slideshowData, index) => {
-      slideshowData.template = templateText;
-      slideshows[index] = new Slideshow(slideshowData);
-      slideshows[index].init();
-    });
-  })
-  .catch((error) => { console.error(error); });
+if (document.querySelector('[data-js-slideshow]')) {
+  const slideshows = [];
+  fetchSlideshowData(slideshowsContentUrl, templateUrl)
+    .then((slideshowsData) => {
+      const { templateText } = slideshowsData;
+      slideshowsData.content.forEach((slideshowData, index) => {
+        slideshowData.template = templateText;
+        slideshows[index] = new Slideshow(slideshowData);
+        slideshows[index].init();
+      });
+    })
+    .catch((error) => { console.error(error); });
+}
 
+if (document.querySelector('[data-js-render-mustache-playlist]')) {
+  (async () => {
+    const dataContent = await fetchData(contentPlayerURL);
+
+    const mustacheElement = document.querySelector('[data-js-render-mustache-playlist]');
+    const templatePlayerURL = mustacheElement.getAttribute('data-js-render-mustache-playlist');
+    const dataTemplate = await fetchData(templatePlayerURL, false);
+    // eslint-disable-next-line no-undef
+    const renderedSection = Mustache.render(dataTemplate, { data: dataContent });
+    console.log(dataContent);
+    mustacheElement.innerHTML = renderedSection;
+  })().catch((error) => {
+    console.log('error', error);
+  });
+}
 toogleMenu();

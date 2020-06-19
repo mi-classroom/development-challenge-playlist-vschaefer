@@ -10,10 +10,28 @@
 </head>
 
 <body>
-  <header class="main-header" style="background-image: url(images/maiwoche-l.jpg)">
+  <header class="main-header">
+    <div class="main-header__menu-bar" >
+      <button class="hamburger-button js-navigation-interaction-element" data-js-interaction-target=".js-menu-element">
+        <svg width="100%" height="100%" viewBox="0 0 225 175" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <rect class="hamburger-button__bar-top" fill="#FFFFFF" x="25" y="25" width="175" height="25"></rect>
+            <rect class="hamburger-button__bar-middle" fill="#FFFFFF" x="25" y="75" width="175" height="25"></rect>
+            <rect class="hamburger-button__bar-bottom" fill="#FFFFFF" x="25" y="125" width="175" height="25"></rect>
+          </g>
+        </svg>
+      </button>
+      <nav class="main-header__menu-bar-nav js-menu-element">
+        <ul class="menu-list">
+          <li class="menu-list__item"><a class="menu-list__link" href="#">Home</a></li>
+          <li class="menu-list__item"><a class="menu-list__link" href="open-air-festivals.html">Open Air Festivals</a></li>
+          <li class="menu-list__item"><a class="menu-list__link" href="maiwoche.html">Maiwoche</a></li>
+        </ul>
+      </nav>
+    </div>
     <div class="main-header__group">
-      <h1 class="main-header__title">Maiwoche …</h1>
-      <h2 class="main-header__subtitle">… ist der Name eines alljährlich stattfindenden Festes, das es sowohl in Osnabrück als auch in Herdecke gibt.</h2>
+      <h1 class="main-header__title">Musikfestivals</h1>
+      <h2 class="main-header__subtitle">Kleine Übungsaufgabe im Teilmodul Frontend-Development</h2>
     </div>
   </header>
 
@@ -83,6 +101,8 @@
       <section class="aside-content__section">
         <h2 class="aside-content__headline">Hörproben von Hans Atom</h2>
           <!-- bitte hier die Playlist rein packen -->
+        <ul class="playlist" data-js-render-mustache-playlist="./templates/playlist.html">
+
         </ul>
       </section>
     </aside>
@@ -116,7 +136,9 @@
 
   </footer>
 </body>
+<script src="https://unpkg.com/mustache@latest"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.core.min.js"></script>
 <script src="./scripts/audioplayer.js"></script>
+<script type="module" src="./scripts/main.js"></script>
 
 </html>
